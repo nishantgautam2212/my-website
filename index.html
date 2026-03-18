@@ -76,7 +76,7 @@
         </div>
     </nav>
 
-    <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 py-3 px-6 flex justify-around items-center z-[500]">
+    <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 py-3 px-6 flex justify-around items-center z-[500] shadow-[0_-10px_25px_rgba(0,0,0,0.05)]">
         <button onclick="showPage('home')" class="flex flex-col items-center gap-1">
             <i data-lucide="home" class="w-5 h-5 text-slate-400"></i>
             <span class="text-[9px] font-bold uppercase tracking-widest">Home</span>
@@ -89,9 +89,13 @@
             <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
             <span class="text-[9px] font-bold uppercase tracking-widest">Logs</span>
         </button>
+        <a href="tel:8385987078" class="flex flex-col items-center gap-1">
+            <i data-lucide="phone" class="w-5 h-5 text-[#FF8C00]"></i>
+            <span class="text-[9px] font-bold uppercase tracking-widest">Call</span>
+        </a>
     </div>
 
-    <div id="home" class="page active pb-20 md:pb-0">
+    <div id="home" class="page active pb-20">
         <section class="py-8 md:py-12 px-6 bg-white">
             <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
                 <div class="space-y-6 md:space-y-8">
@@ -110,7 +114,7 @@
 
                         <div class="slider-track" id="sliderTrack">
                             <div class="slide">
-                                <img src="p1.jpg" class="w-full h-full object-cover">
+                                <img src="p1.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1599939575322-792a126a7df9?auto=format&fit=crop&q=80&w=1000'">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Precision Repairing Jaipur</p></div>
                             </div>
                             <div class="slide">
@@ -118,7 +122,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Deep Foam Jet Cleaning</p></div>
                             </div>
                             <div class="slide">
-                                <img src="p2.jpg" class="w-full h-full object-cover">
+                                <img src="p2.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1581094288338-2314dddb7ead?auto=format&fit=crop&q=80&w=1000'">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Expert Installation</p></div>
                             </div>
                         </div>
@@ -215,12 +219,12 @@
         <section class="py-16 md:py-20 px-6 max-w-7xl mx-auto">
             <h2 class="text-2xl md:text-3xl font-black mb-8 italic uppercase tracking-tighter">Jaipur Operations Map</h2>
             <div class="rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden shadow-2xl h-80 md:h-96 border-[8px] md:border-[12px] border-white ring-1 ring-slate-200">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113897.43343163351!2d75.714241071221!3d26.862372551405096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2sJaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1711200000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113896.46327318855!2d75.7139174!3d26.8851417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2sJaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </section>
     </div>
 
-    <div id="services" class="page px-6 py-8 md:py-12 max-w-7xl mx-auto pb-24 md:pb-12">
+    <div id="services" class="page px-6 py-8 md:py-12 max-w-7xl mx-auto pb-24">
         <div class="bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 mb-12 text-white grid lg:grid-cols-2 gap-10 md:gap-12 items-center border-t-[12px] border-[#0052CC]">
             <div>
                 <h2 class="text-3xl md:text-5xl font-black mb-6 italic uppercase">Price Estimator</h2>
@@ -233,7 +237,7 @@
                     </div>
                     <div class="flex items-center justify-between bg-slate-800 p-5 md:p-6 rounded-3xl border border-white/5">
                         <button onclick="calcCount(-1)" class="p-3 bg-slate-700 rounded-xl hover:bg-slate-600 transition"><i data-lucide="minus"></i></button>
-                        <span id="cCount" class="text-2xl md:text-3xl font-black italic">1 Units</span>
+                        <span id="cCount" class="text-2xl md:text-3xl font-black italic mx-4">1 Units</span>
                         <button onclick="calcCount(1)" class="p-3 bg-slate-700 rounded-xl hover:bg-slate-600 transition"><i data-lucide="plus"></i></button>
                     </div>
                 </div>
@@ -247,7 +251,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" id="catalog"></div>
     </div>
 
-    <div id="about" class="page px-6 py-12 md:py-20 max-w-6xl mx-auto pb-24 md:pb-20">
+    <div id="about" class="page px-6 py-12 md:py-20 max-w-6xl mx-auto pb-24">
         <div class="text-center mb-16 md:mb-20">
             <h2 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">Service Methodology</h2>
         </div>
@@ -273,7 +277,7 @@
         </div>
     </div>
 
-    <div id="cart" class="page px-6 py-12 max-w-2xl mx-auto pb-24 md:pb-12">
+    <div id="cart" class="page px-6 py-12 max-w-2xl mx-auto pb-32">
         <div class="bg-white rounded-[3rem] md:rounded-[4rem] shadow-2xl overflow-hidden border">
             <div class="p-8 md:p-12 border-b flex justify-between items-center bg-slate-50">
                 <h2 class="text-3xl md:text-4xl font-black italic uppercase tracking-tighter">Checkout</h2>
@@ -290,26 +294,38 @@
         </div>
     </div>
 
-    <footer class="hidden md:block bg-slate-900 text-white pt-24 pb-12 px-6 mt-20">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20 border-b border-white/5 pb-20">
+    <footer class="bg-slate-900 text-white pt-16 pb-32 md:pb-12 px-6 mt-10 md:mt-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:grid md:grid-cols-4 gap-12 mb-10 md:mb-20 border-b border-white/5 pb-10 md:pb-20">
             <div class="col-span-2">
                 <span class="text-3xl font-black uppercase italic tracking-tighter">SSA<span class="text-[#FF8C00]">.</span>JP</span>
                 <p class="text-slate-500 mt-4 max-w-sm">Jaipur's leading multi-disciplinary facility care hub. Professional, background-verified technicians at your doorstep.</p>
             </div>
             <div>
-                <h4 class="text-[#FF8C00] font-black uppercase text-xs mb-6">Contact</h4>
-                <p class="text-slate-400 text-sm font-bold">443 Sushlipura, Ajmer Road, Jaipur<br>8385987078</p>
+                <h4 class="text-[#FF8C00] font-black uppercase text-xs mb-6">Contact Us</h4>
+                <p class="text-slate-400 text-sm font-bold leading-relaxed">
+                    443 Sushilpura, Ajmer Road, Jaipur<br>
+                    Rajasthan, India<br>
+                    <span class="text-white block mt-2">8385987078</span>
+                </p>
+            </div>
+            <div>
+                <h4 class="text-[#FF8C00] font-black uppercase text-xs mb-6">Quick Links</h4>
+                <div class="flex flex-col gap-2 text-slate-400 text-sm font-bold">
+                    <button onclick="showPage('home')" class="text-left hover:text-white transition">Home</button>
+                    <button onclick="showPage('services')" class="text-left hover:text-white transition">Services</button>
+                    <button onclick="showPage('about')" class="text-left hover:text-white transition">Methodology</button>
+                </div>
             </div>
         </div>
         
         <div class="max-w-7xl mx-auto text-center">
             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
-                © 2026 Sawariya Seth Aircon | Design by <span class="text-white">Nishant</span>
+                © 2026 Sawariya Seth Aircon | Design by <span class="text-white uppercase">Nishant</span>
             </p>
         </div>
     </footer>
 
-    <a href="https://wa.me/918385987078" target="_blank" class="wp-float hidden md:flex"><i data-lucide="message-circle" class="w-8 h-8 fill-white"></i></a>
+    <a href="https://wa.me/918385987078" target="_blank" class="wp-float"><i data-lucide="message-circle" class="w-8 h-8 fill-white"></i></a>
 
     <script>
         lucide.createIcons();
@@ -413,7 +429,7 @@
 
         function addCalcToCart() {
             for(let i=0; i<curCount; i++) {
-                cart.push({ name: `${curType} AC Service`, price: curPrice });
+                cart.push({ id: 999, name: `${curType} AC Service`, price: curPrice });
             }
             updateCartIcon();
             showToast(`Added ${curCount} ${curType} Units!`);
@@ -421,7 +437,7 @@
 
         function addToCart(id) {
             const s = services.find(x => x.id === id);
-            cart.push(s);
+            cart.push({...s});
             updateCartIcon();
             showToast(`${s.name} Added!`);
         }
