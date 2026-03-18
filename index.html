@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSA.JP | Sawariya Seth Aircon - Official</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .page { display: none; animation: fadeIn 0.4s ease-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); z-index: 1000; }
+        
+        .slider-container { overflow: hidden; position: relative; border-radius: 2rem; }
+        .slider-track { display: flex; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide { min-width: 100%; height: 300px; position: relative; }
+        @media (min-width: 768px) { .slide { height: 500px; } }
+
+        #toast {
+            position: fixed; top: 100px; right: -400px; z-index: 2000;
+            background: #0052CC; color: white; padding: 18px 28px;
+            border-radius: 1.2rem; font-weight: 800; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(0,82,204,0.3); display: flex; align-items: center; gap: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        #toast.show { right: 20px; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .wp-float {
+            position: fixed; bottom: 100px; right: 20px; z-index: 100;
+            background: #25D366; color: white; width: 65px; height: 65px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0.5); } 100% { box-shadow: 0 0 0 25px rgba(37, 211, 102, 0); } }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-900">
+
+    <div id="toast"></div>
+
+    <nav class="sticky top-0 glass-nav border-b border-slate-200 px-4 md:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#0052CC] rounded-xl md:rounded-2xl flex items-center justify-center shadow-xl">
+                    <i data-lucide="wind" class="text-white w-6 h-6 md:w-7 md:h-7"></i>
+                </div>
+                <div>
+                    <span class="text-xl md:text-2xl font-black tracking-tighter uppercase italic block leading-none">SSA<span class="text-[#FF8C00]">.</span>JP</span>
+                    <span class="text-[7px] md:text-[8px] font-bold text-slate-400 uppercase tracking-widest">Sawariya Seth Aircon™</span>
+                </div>
+            </div>
+            
+            <div class="hidden lg:flex gap-10 font-black text-slate-500 uppercase text-[11px] tracking-[0.2em]">
+                <button onclick="showPage('home')" class="hover:text-[#0052CC] transition">Home</button>
+                <button onclick="showPage('services')" class="hover:text-[#0052CC] transition">Services</button>
+                <button onclick="showPage('about')" class="hover:text-[#0052CC] transition">Tech Logs</button>
+            </div>
+
+            <div class="flex items-center gap-3 md:gap-5">
+                <button onclick="showPage('cart')" class="relative p-3 bg-slate-100 rounded-2xl hover:bg-slate-200 transition">
+                    <i data-lucide="shopping-basket" class="w-5 h-5 md:w-6 md:h-6 text-slate-800"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-[#FF8C00] text-white text-[10px] font-black w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full border-2 border-white">0</span>
+                </button>
+                <a href="tel:8385987078" class="bg-[#0052CC] text-white p-3 md:px-6 md:py-3 rounded-2xl font-black flex items-center gap-2 hover:bg-slate-900 transition">
+                    <i data-lucide="phone-call" class="w-5 h-5 md:w-4.5 md:h-4.5"></i> <span class="hidden md:inline">8385987078</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 py-3 px-6 flex justify-around items-center z-[500]">
+        <button onclick="showPage('home')" class="flex flex-col items-center gap-1">
+            <i data-lucide="home" class="w-5 h-5 text-slate-400"></i>
+            <span class="text-[9px] font-bold uppercase tracking-widest">Home</span>
+        </button>
+        <button onclick="showPage('services')" class="flex flex-col items-center gap-1">
+            <i data-lucide="briefcase" class="w-5 h-5 text-slate-400"></i>
+            <span class="text-[9px] font-bold uppercase tracking-widest">Services</span>
+        </button>
+        <button onclick="showPage('about')" class="flex flex-col items-center gap-1">
+            <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+            <span class="text-[9px] font-bold uppercase tracking-widest">Logs</span>
+        </button>
+    </div>
+
+    <div id="home" class="page active pb-20 md:pb-0">
+        <section class="py-8 md:py-12 px-6 bg-white">
+            <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
+                <div class="space-y-6 md:space-y-8">
+                    <div class="inline-flex items-center gap-3 bg-blue-50 text-[#0052CC] px-5 py-2 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-widest">
+                        <i data-lucide="award" size="14"></i> ISO 9001:2015 Certified Hub
+                    </div>
+                    <h1 class="text-5xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter italic uppercase">Quick <br>AC <span class="text-[#0052CC]">Relief</span></h1>
+                    
+                    <div class="slider-container relative shadow-2xl border-[8px] md:border-[12px] border-slate-50 group">
+                        <button onclick="moveSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button onclick="moveSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+
+                        <div class="slider-track" id="sliderTrack">
+                            <div class="slide">
+                                <img src="image/62b95413-b457-4327-9252-a17233c5aea3.jpg" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Precision Repairing Jaipur</p></div>
+                            </div>
+                            <div class="slide">
+                                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Deep Foam Jet Cleaning</p></div>
+                            </div>
+                            <div class="slide">
+                                <img src="image/d571183e-c8d3-4db6-9646-6bd613fa1d53.jpg" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6 md:p-10"><p class="text-white font-black text-xl md:text-2xl uppercase italic">Expert Installation</p></div>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3" id="sliderDots"></div>
+                    </div>
+                    
+                    <button onclick="showPage('services')" class="bg-[#FF8C00] text-white px-12 py-5 md:py-6 rounded-2xl md:rounded-3xl font-black text-xl md:text-2xl shadow-2xl hover:bg-slate-900 transition-all uppercase italic w-full md:w-auto">Start Booking</button>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-slate-50 p-8 md:p-10 rounded-[2rem] md:rounded-[3.5rem] border border-slate-100 shadow-inner">
+                        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Live Hub Performance</h3>
+                        <div class="grid grid-cols-2 gap-6 md:gap-10">
+                            <div><p class="text-4xl md:text-5xl font-black italic text-slate-900">4.9</p><p class="text-[10px] font-black text-blue-600 uppercase">Avg Rating</p></div>
+                            <div><p class="text-4xl md:text-5xl font-black italic text-slate-900">60m</p><p class="text-[10px] font-black text-[#FF8C00] uppercase">Arrival</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 p-8 md:p-10 rounded-[2rem] md:rounded-[3.5rem] text-white relative overflow-hidden">
+                        <i data-lucide="map" class="absolute -right-10 -bottom-10 w-32 h-32 md:w-48 md:h-48 text-white/5"></i>
+                        <p class="text-[#FF8C00] font-black uppercase italic mb-2 tracking-widest">Active Zones:</p>
+                        <p class="text-sm text-slate-400 font-bold leading-relaxed">All over Jaipur City</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 px-6 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <p class="text-[#0052CC] font-black uppercase text-[10px] tracking-[0.3em] mb-2">Social Proof</p>
+                        <h2 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">Service <span class="text-[#0052CC]">Reviews</span></h2>
+                    </div>
+                    <div class="hidden md:flex gap-4">
+                        <div class="bg-slate-100 p-4 rounded-2xl"><p class="text-2xl font-black italic">500+</p><p class="text-[8px] font-bold uppercase text-slate-400">Happy Customers</p></div>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
+                        <div class="flex gap-1 text-[#FF8C00] mb-4">
+                            <i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i>
+                        </div>
+                        <p class="text-slate-600 font-bold text-sm leading-relaxed mb-6 italic">"The jet cleaning was amazing. My AC feels like brand new and cooling is instant now. Highly recommended!"</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center font-black text-[#0052CC]">A</div>
+                            <div><p class="text-xs font-black uppercase italic">Ankit Sharma</p><p class="text-[9px] font-bold text-slate-400 uppercase">Malviya Nagar</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
+                        <div class="flex gap-1 text-[#FF8C00] mb-4">
+                            <i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i>
+                        </div>
+                        <p class="text-slate-600 font-bold text-sm leading-relaxed mb-6 italic">"Professional behavior and very transparent pricing. Fixed my gas leakage issue in 1 hour."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center font-black text-[#FF8C00]">R</div>
+                            <div><p class="text-xs font-black uppercase italic">Rahul Verma</p><p class="text-[9px] font-bold text-slate-400 uppercase">Vaishali Nagar</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
+                        <div class="flex gap-1 text-[#FF8C00] mb-4">
+                            <i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i><i data-lucide="star" fill="currentColor" size="14"></i>
+                        </div>
+                        <p class="text-slate-600 font-bold text-sm leading-relaxed mb-6 italic">"Excellent installation service. The team was very careful with the wall paint and pipes."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center font-black text-slate-900">S</div>
+                            <div><p class="text-xs font-black uppercase italic">Sonia Singh</p><p class="text-[9px] font-bold text-slate-400 uppercase">Mansarovar</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 px-6 bg-slate-50">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-black italic uppercase tracking-tighter mb-12 md:mb-16">Choose Your <span class="text-[#0052CC]">Case</span></h2>
+                <div class="flex overflow-x-auto gap-6 md:gap-8 pb-12 no-scrollbar justify-start md:justify-center">
+                    <div onclick="showPage('services')" class="flex-shrink-0 text-center cursor-pointer group">
+                        <div class="w-24 h-24 md:w-28 md:h-28 bg-white rounded-[2rem] shadow-sm flex items-center justify-center border-b-[6px] border-blue-500 group-hover:scale-110 transition duration-500"><i data-lucide="thermometer-snowflake" class="text-blue-500 w-10 h-10 md:w-12 md:h-12"></i></div>
+                        <p class="text-[9px] md:text-[10px] font-black uppercase mt-5 tracking-[0.2em] text-slate-500">Cooling Issue</p>
+                    </div>
+                    <div onclick="showPage('services')" class="flex-shrink-0 text-center cursor-pointer group">
+                        <div class="w-24 h-24 md:w-28 md:h-28 bg-white rounded-[2rem] shadow-sm flex items-center justify-center border-b-[6px] border-red-500 group-hover:scale-110 transition duration-500"><i data-lucide="volume-2" class="text-red-500 w-10 h-10 md:w-12 md:h-12"></i></div>
+                        <p class="text-[9px] md:text-[10px] font-black uppercase mt-5 tracking-[0.2em] text-slate-500">Noise Issue</p>
+                    </div>
+                    <div onclick="showPage('services')" class="flex-shrink-0 text-center cursor-pointer group">
+                        <div class="w-24 h-24 md:w-28 md:h-28 bg-white rounded-[2rem] shadow-sm flex items-center justify-center border-b-[6px] border-[#FF8C00] group-hover:scale-110 transition duration-500"><i data-lucide="zap" class="text-[#FF8C00] w-10 h-10 md:w-12 md:h-12"></i></div>
+                        <p class="text-[9px] md:text-[10px] font-black uppercase mt-5 tracking-[0.2em] text-slate-500">Gas Leakage</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 px-6 max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-black mb-8 italic uppercase tracking-tighter">Jaipur Operations Map</h2>
+            <div class="rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden shadow-2xl h-80 md:h-96 border-[8px] md:border-[12px] border-white ring-1 ring-slate-200">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113897.43343163351!2d75.714241071221!3d26.862372551405096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2sJaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1711200000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+    </div>
+
+    <div id="services" class="page px-6 py-8 md:py-12 max-w-7xl mx-auto pb-24 md:pb-12">
+        <div class="bg-slate-900 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 mb-12 text-white grid lg:grid-cols-2 gap-10 md:gap-12 items-center border-t-[12px] border-[#0052CC]">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-black mb-6 italic uppercase">Price Estimator</h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="calcType('Split', 600)" id="cSplit" class="py-4 rounded-xl font-black bg-[#0052CC] text-white uppercase italic text-[10px] md:text-xs">Split</button>
+                        <button onclick="calcType('Window', 600)" id="cWindow" class="py-4 rounded-xl font-black bg-slate-800 text-slate-500 uppercase italic text-[10px] md:text-xs">Window</button>
+                        <button onclick="calcType('Cassette', 1600)" id="cCassette" class="py-4 rounded-xl font-black bg-slate-800 text-slate-500 uppercase italic text-[10px] md:text-xs">Cassette</button>
+                        <button onclick="calcType('Ductable', 1600)" id="cDuctable" class="py-4 rounded-xl font-black bg-slate-800 text-slate-500 uppercase italic text-[10px] md:text-xs">Ductable</button>
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-800 p-5 md:p-6 rounded-3xl border border-white/5">
+                        <button onclick="calcCount(-1)" class="p-3 bg-slate-700 rounded-xl hover:bg-slate-600 transition"><i data-lucide="minus"></i></button>
+                        <span id="cCount" class="text-2xl md:text-3xl font-black italic">1 Units</span>
+                        <button onclick="calcCount(1)" class="p-3 bg-slate-700 rounded-xl hover:bg-slate-600 transition"><i data-lucide="plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white/5 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] text-center border border-white/10 backdrop-blur-md">
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-blue-400 mb-4">Total Amount (Inc. GST)</p>
+                <p class="text-6xl md:text-8xl font-black text-[#FF8C00] mb-8 tracking-tighter italic">₹<span id="cTotal">600</span></p>
+                <button onclick="addCalcToCart()" class="bg-white text-slate-900 px-10 py-5 md:py-6 rounded-2xl font-black uppercase italic w-full hover:bg-[#FF8C00] hover:text-white transition-all shadow-xl">Add to Cart</button>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" id="catalog"></div>
+    </div>
+
+    <div id="about" class="page px-6 py-12 md:py-20 max-w-6xl mx-auto pb-24 md:pb-20">
+        <div class="text-center mb-16 md:mb-20">
+            <h2 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">Service Methodology</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 md:gap-10">
+            <div class="bg-white p-10 md:p-12 rounded-[3rem] md:rounded-[4rem] border-t-[12px] border-[#FF8C00] shadow-sm">
+                <div class="w-14 h-14 md:w-16 md:h-16 bg-orange-50 text-[#FF8C00] rounded-2xl flex items-center justify-center mb-8"><i data-lucide="cog" size="28"></i></div>
+                <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase italic tracking-tighter">Cleaning Standard</h3>
+                <ul class="space-y-4 text-slate-500 font-bold text-sm">
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> 150-Bar Jet Wash</li>
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> Anti-bacterial Foam</li>
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> Drain Pipe Cleaning</li>
+                </ul>
+            </div>
+            <div class="bg-white p-10 md:p-12 rounded-[3rem] md:rounded-[4rem] border-t-[12px] border-[#0052CC] shadow-sm">
+                <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-[#0052CC] rounded-2xl flex items-center justify-center mb-8"><i data-lucide="zap" size="28"></i></div>
+                <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase italic tracking-tighter">Gas Audit Log</h3>
+                <ul class="space-y-4 text-slate-500 font-bold text-sm">
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> Nitrogen Leak Test</li>
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> Vacuuming Process</li>
+                    <li><i data-lucide="check" class="inline text-green-500 mr-2"></i> Virgin Grade Gas Only</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart" class="page px-6 py-12 max-w-2xl mx-auto pb-24 md:pb-12">
+        <div class="bg-white rounded-[3rem] md:rounded-[4rem] shadow-2xl overflow-hidden border">
+            <div class="p-8 md:p-12 border-b flex justify-between items-center bg-slate-50">
+                <h2 class="text-3xl md:text-4xl font-black italic uppercase tracking-tighter">Checkout</h2>
+                <i data-lucide="lock" class="text-slate-300"></i>
+            </div>
+            <div id="cartList" class="p-8 md:p-12 space-y-6"></div>
+            <div class="p-8 md:p-12 bg-white">
+                <div class="flex justify-between text-4xl md:text-5xl font-black mb-12 italic tracking-tighter">
+                    <span>Total</span><span id="cartTotal" class="text-[#0052CC]">₹0</span>
+                </div>
+                <input type="tel" id="uPhone" placeholder="Mobile Number" class="w-full p-6 md:p-7 rounded-[2rem] border-4 border-slate-100 mb-6 text-center font-black text-2xl md:text-3xl outline-none focus:border-[#0052CC]">
+                <button onclick="finalCheckout()" class="w-full bg-[#0052CC] text-white py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] font-black text-2xl md:text-3xl uppercase italic shadow-2xl">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="hidden md:block bg-slate-900 text-white pt-24 pb-12 px-6 mt-20">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20 border-b border-white/5 pb-20">
+            <div class="col-span-2">
+                <span class="text-3xl font-black uppercase italic tracking-tighter">SSA<span class="text-[#FF8C00]">.</span>JP</span>
+                <p class="text-slate-500 mt-4 max-w-sm">Jaipur's leading multi-disciplinary facility care hub. Professional, background-verified technicians at your doorstep.</p>
+            </div>
+            <div>
+                <h4 class="text-[#FF8C00] font-black uppercase text-xs mb-6">Contact</h4>
+                <p class="text-slate-400 text-sm font-bold">443 Sushlipura, Ajmer Road, Jaipur<br>8385987078</p>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
+                © 2026 Sawariya Seth Aircon | Design by <span class="text-white">Nishant</span>
+            </p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/918385987078" target="_blank" class="wp-float hidden md:flex"><i data-lucide="message-circle" class="w-8 h-8 fill-white"></i></a>
+
+    <script>
+        lucide.createIcons();
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = `<i data-lucide="check-circle" size="18"></i> ${msg}`;
+            lucide.createIcons();
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 2500);
+        }
+
+        let slideIdx = 0;
+        const track = document.getElementById('sliderTrack');
+        const dotsContainer = document.getElementById('sliderDots');
+        const totalSlides = 3; 
+
+        for(let i=0; i<totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = `w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === 0 ? 'bg-white w-8' : 'bg-white/40'}`;
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateSlider() {
+            track.style.transform = `translateX(-${slideIdx * 100}%)`;
+            Array.from(dotsContainer.children).forEach((dot, i) => {
+                dot.className = `w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === slideIdx ? 'bg-white w-8' : 'bg-white/40'}`;
+            });
+        }
+
+        function moveSlide(step) {
+            slideIdx = (slideIdx + step + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(i) { slideIdx = i; updateSlider(); }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(id === 'cart') renderCart();
+        }
+
+        const services = [
+            { id: 1, name: "Jet Deep Cleaning", price: 600, icon: "droplets", log: "150-Bar High Pressure" },
+            { id: 2, name: "Gas Refill (ISO)", price: 3500, icon: "zap", log: "Virgin R32/R410 Grade" },
+            { id: 4, name: "AC Installation", price: 1500, icon: "plus-circle", log: "Nitrogen Pressure Test" },
+            { id: 6, name: "Cassette AC Service", price: 1600, icon: "square", log: "Ceiling Mount Specialist" },
+            { id: 7, name: "Ductable AC Service", price: 1600, icon: "layers", log: "Industrial Duct Clean" },
+            { id: 5, name: "AMC Contract", price: 5000, icon: "calendar", log: "2 services free include gas" }
+        ];
+        let cart = [];
+
+        const catalog = document.getElementById('catalog');
+        services.forEach(s => {
+            catalog.innerHTML += `
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] border border-slate-100 shadow-sm hover:shadow-2xl transition duration-500 group">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-[#0052CC] rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#0052CC] group-hover:text-white transition-all"><i data-lucide="${s.icon}" size="24"></i></div>
+                    <h3 class="text-xl md:text-2xl font-black mb-2 italic uppercase tracking-tighter">${s.name}</h3>
+                    <p class="text-[9px] font-black text-slate-400 uppercase mb-8 tracking-widest">${s.log}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-3xl md:text-4xl font-black italic tracking-tighter">₹${s.price}</span>
+                        <div class="flex items-center gap-3">
+                            <button onclick="removeOneFromCart(${s.id})" class="bg-slate-100 text-slate-900 w-8 h-8 md:w-10 md:h-10 rounded-xl font-black hover:bg-red-500 hover:text-white transition shadow-sm active:scale-90">-</button>
+                            <button onclick="addToCart(${s.id})" class="bg-[#FF8C00] text-white px-6 md:px-8 py-2 md:py-3 rounded-xl md:rounded-2xl font-black uppercase italic shadow-xl active:scale-95 transition-all text-[10px]">Add +</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        lucide.createIcons();
+
+        let curType = 'Split'; 
+        let curCount = 1;
+        let curPrice = 600;
+
+        function calcType(t, p) {
+            curType = t;
+            curPrice = p;
+            const buttons = ['cSplit', 'cWindow', 'cCassette', 'cDuctable'];
+            buttons.forEach(id => {
+                const btn = document.getElementById(id);
+                if(id === 'c' + t) {
+                    btn.className = 'py-4 rounded-xl font-black bg-[#0052CC] text-white uppercase italic text-[10px] md:text-xs';
+                } else {
+                    btn.className = 'py-4 rounded-xl font-black bg-slate-800 text-slate-500 uppercase italic text-[10px] md:text-xs';
+                }
+            });
+            updateCalc();
+        }
+
+        function calcCount(v) { curCount = Math.max(1, curCount + v); updateCalc(); }
+        
+        function updateCalc() { 
+            const total = curCount * curPrice;
+            document.getElementById('cCount').innerText = curCount + " Units";
+            document.getElementById('cTotal').innerText = total;
+        }
+
+        function addCalcToCart() {
+            for(let i=0; i<curCount; i++) {
+                cart.push({ name: `${curType} AC Service`, price: curPrice });
+            }
+            updateCartIcon();
+            showToast(`Added ${curCount} ${curType} Units!`);
+        }
+
+        function addToCart(id) {
+            const s = services.find(x => x.id === id);
+            cart.push(s);
+            updateCartIcon();
+            showToast(`${s.name} Added!`);
+        }
+
+        function removeOneFromCart(id) {
+            const index = cart.map(item => item.id).lastIndexOf(id);
+            if (index !== -1) {
+                const removedName = cart[index].name;
+                cart.splice(index, 1);
+                updateCartIcon();
+                showToast(`Removed 1 ${removedName}`);
+            }
+        }
+
+        function updateCartIcon() { document.getElementById('cart-count').innerText = cart.length; }
+        
+        function renderCart() {
+            const list = document.getElementById('cartList');
+            let total = 0; 
+            list.innerHTML = cart.length === 0 ? '<p class="text-center font-black text-slate-300 py-16 uppercase italic">Cart Empty</p>' : '';
+            
+            cart.forEach((item, i) => {
+                total += item.price;
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-slate-50 p-6 rounded-3xl border-l-[10px] border-[#FF8C00]">
+                        <div class="flex items-center gap-4">
+                            <span class="bg-white w-7 h-7 flex items-center justify-center rounded-full text-[10px] font-black text-slate-400 border border-slate-200">${i + 1}</span>
+                            <div><span class="font-black italic uppercase text-slate-700 block text-xs md:text-base">${item.name}</span></div>
+                        </div>
+                        <div class="flex items-center gap-4 md:gap-6">
+                            <span class="font-black text-[#0052CC] text-xl md:text-2xl italic">₹${item.price}</span>
+                            <button onclick="removeFromCart(${i})" class="text-red-400 hover:scale-110 transition"><i data-lucide="trash-2" size="18"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').innerText = '₹' + total;
+            lucide.createIcons();
+        }
+
+        function removeFromCart(i) { cart.splice(i, 1); updateCartIcon(); renderCart(); }
+        
+        function finalCheckout() {
+            const phone = document.getElementById('uPhone').value;
+            if(!phone || phone.length < 10 || cart.length === 0) return alert("Please enter valid phone & add items.");
+            
+            let message = "🚀 *SSA.JP - NEW BOOKING*%0A%0A";
+            message += `📱 *Customer:* ${phone}%0A`;
+            message += "🛠️ *Order Details:*%0A";
+            
+            let total = 0;
+            cart.forEach((item, idx) => {
+                message += `${idx + 1}. ${item.name} - ₹${item.price}%0A`;
+                total += item.price;
+            });
+            
+            message += `%0A💰 *Total:* ₹${total}`;
+            const wpNumber = "918385987078"; 
+            window.open(`https://wa.me/${wpNumber}?text=${message}`, '_blank');
+
+            cart = []; 
+            updateCartIcon(); 
+            showPage('home');
+        }
+    </script>
+</body>
+</html>
