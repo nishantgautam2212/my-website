@@ -288,7 +288,7 @@
             <div>
                 <h4 class="text-[#FF8C00] font-black uppercase text-xs mb-6">Working Hours</h4>
                 <p class="text-slate-400 text-sm font-bold leading-relaxed">
-                    Mon - Sat: <span class="text-white">9:00 AM - 9:00 PM</span><br>
+                    Mon - Sat: <span class="text-white">10:00 AM - 8:00 PM</span><br>
                     Sunday: <span class="text-white">10:00 AM - 6:00 PM</span><br>
                     <span class="text-[#0052CC] block mt-2 italic font-black">24/7 Support for AMC Clients</span>
                 </p>
@@ -320,7 +320,7 @@
             if (day === 0) { // Sunday
                 if (hour >= 10 && hour < 18) isOpen = true;
             } else { // Mon-Sat
-                if (hour >= 9 && hour < 21) isOpen = true;
+                if (hour >= 10 && hour < 21) isOpen = true;
             }
 
             if (isOpen) {
@@ -330,7 +330,7 @@
             } else {
                 badge.className = "mt-6 inline-flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full border border-red-500/20";
                 dot.className = "w-2 h-2 bg-red-500 rounded-full";
-                text.innerText = "CLOSED: OPENS AT " + (day === 6 ? "10:00 AM" : "09:00 AM");
+                text.innerText = "CLOSED: OPENS AT " + (day === 6 ? "10:00 AM" : "10:00 AM");
             }
         }
         updateStatus();
